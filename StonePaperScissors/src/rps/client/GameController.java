@@ -202,26 +202,19 @@ public class GameController implements GameListener, MouseListener {
 		gamePane.systemChat("Figur placed at field " + FIELD);
 		java.net.URL imageURL = null;
 		
-		switch (Counter) {
-		case 0-3:
+		if(Counter < 4)
 			imageURL = GameController.class.getResource("Images/paper.png");
-			break;
-		case 4-5:
+		else if(Counter < 8)
 			imageURL = GameController.class.getResource("Images/scissors.png");
-			break;
-		case 7-9:
+		else if(Counter < 12)	
 			imageURL = GameController.class.getResource("Images/stone.png");
-			break;
-		case 10:
+		else if(Counter < 13)
 			imageURL = GameController.class.getResource("Images/flag.png");
-			break;
-		case 11:
+		else if(Counter == 13){
 			imageURL = GameController.class.getResource("Images/trap2.png");
 			Counter = -1;
-			break;
-		default:
-			break;
 		}
+		
 		
         ImageIcon icon = new ImageIcon(imageURL);
 		JLabel[] labels= gamePane.getLabels();
@@ -234,6 +227,7 @@ public class GameController implements GameListener, MouseListener {
 		labels[FIELD-1].add(Fig);
 		labels[FIELD-1].getComponent(0).setVisible(true);
 		labels[FIELD-1].repaint();
+		System.out.println(Counter);
 		Counter++;
 
 	}
