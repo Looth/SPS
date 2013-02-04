@@ -1,7 +1,6 @@
 package rps.client;
 import static rps.network.NetworkUtil.hostNetworkGame;
 
-
 import java.rmi.RemoteException;
 
 import rps.client.ui.GamePane;
@@ -13,7 +12,9 @@ import rps.network.NetworkUtil;
 import java.awt.Dimension;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import Berechnungen.GetField;
 
@@ -31,6 +32,7 @@ public class GameController implements GameListener, MouseListener {
 	private Player player;
 	private Game game;
 	private Dimension dim;
+	private int Counter = 0;
 
 	public void setComponents(UIController uiController, GamePane gamePane,Dimension dim) {
 		this.uiController = uiController;
@@ -129,7 +131,6 @@ public class GameController implements GameListener, MouseListener {
 		JLabel[] labels= gamePane.getLabels();
 		for(int i = 0; i < labels.length;i++){
 			labels[i].addMouseListener(this);
-			
 		}
 		
 	}
@@ -196,10 +197,45 @@ public class GameController implements GameListener, MouseListener {
 	
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
+		int FIELD = GetField.getField(dim,e.getComponent().getLocation());
 		
+		gamePane.systemChat("Figur placed at field " + FIELD);
+		java.net.URL imageURL = null;
 		
-		gamePane.systemChat("Figur placed at field " + GetField.getField(dim,e.getComponent().getLocation()));
+		switch (Counter) {
+		case 0-3:
+			imageURL = GameController.class.getResource("Images/paper.png");
+			break;
+		case 4-5:
+			imageURL = GameController.class.getResource("Images/scissors.png");
+			break;
+		case 7-9:
+			imageURL = GameController.class.getResource("Images/stone.png");
+			break;
+		case 10:
+			imageURL = GameController.class.getResource("Images/flag.png");
+			break;
+		case 11:
+			imageURL = GameController.class.getResource("Images/trap2.png");
+			Counter = -1;
+			break;
+		default:
+			break;
+		}
 		
+        ImageIcon icon = new ImageIcon(imageURL);
+		JLabel[] labels= gamePane.getLabels();
+		JLabel Fig = new JLabel(icon);
+		
+		Fig.setSize(labels[FIELD-1].getSize());
+		Fig.setVisible(true);
+		if(labels[FIELD-1].getComponentCount() > 0)
+		labels[FIELD-1].remove(0);
+		labels[FIELD-1].add(Fig);
+		labels[FIELD-1].getComponent(0).setVisible(true);
+		labels[FIELD-1].repaint();
+		Counter++;
+
 	}
 
 	@Override

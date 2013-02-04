@@ -98,7 +98,7 @@ public class GamePane {
 		chatInput.setLocation(0, 420);
 		chatInput.setSize(width*7, 50);
 		scrollPane.setLocation(0, 470);
-		scrollPane.setSize(width*7,80);//größen müssen noch festgelegt werden
+		scrollPane.setSize(width*7,80);//gr����en m��ssen noch festgelegt werden
 	}
 	
 	
@@ -169,6 +169,10 @@ public class GamePane {
 	
 	private void reset() {
 		chat.setText(null);
+	}
+	
+	public JPanel getGamePane() {
+		return gamePane;
 	}
 	
 	public JLabel[] getLabels() {
