@@ -87,15 +87,16 @@ public class ValidatingGame implements Game {
 	
 	@Override
 	public Figure[] getField(Player p) throws RemoteException {
+		checkPlayer(p);
 		return game.getField(p);
 	}
 
 	@Override
 	public void move(Player p, int from, int to) throws RemoteException {
 		
-		Figure[] currentField = game.getField(thisPlayer);
-		
 		checkPlayer(p);
+		
+		Figure[] currentField = game.getField(thisPlayer);
 		
 		if(from < 0 || to < 0 || from >= fieldsize || to >= fieldsize || (to == from + 1 && to % 7 == 0) || (to == from - 1 && to % 7 == 6) ){
 			throw new IllegalArgumentException("You cannot move out of the Borders of the field!");
@@ -103,10 +104,6 @@ public class ValidatingGame implements Game {
 		
 		if(!(to == from + 1 || to == from - 1 || to == from + 7 || to == from -7)){
 			throw new IllegalArgumentException("You can only move to surrounding fields!");
-		}
-		
-		if(!currentField[from].belongsTo(p)){
-			throw new IllegalArgumentException("You cannot move the figures of the other player!");
 		}
 		
 		if(currentField[from] == null){
@@ -117,6 +114,11 @@ public class ValidatingGame implements Game {
 			throw new IllegalArgumentException("You cannot attack your own Figures!");
 		}
 		
+		if(!currentField[from].belongsTo(p)){
+			throw new IllegalArgumentException("You cannot move the figures of the other player!");
+		}
+		
+		
 		if(currentField[from].getKind() == FigureKind.FLAG || currentField[from].getKind() == FigureKind.TRAP){
 			throw new IllegalArgumentException("You cannot move this Figure!");
 		}
@@ -126,6 +128,7 @@ public class ValidatingGame implements Game {
 
 	@Override
 	public Move getLastMove(Player p) throws RemoteException {
+		checkPlayer(p);
 		return game.getLastMove(p);
 	}
 
@@ -137,6 +140,7 @@ public class ValidatingGame implements Game {
 
 	@Override
 	public void setInitialChoice(Player p, FigureKind kind) throws RemoteException {
+		checkPlayer(p);
 		isRockPaperScissor(kind);
 		game.setInitialChoice(p, kind);
 	}
@@ -151,7 +155,6 @@ public class ValidatingGame implements Game {
 	public void setUpdatedKindAfterDraw(Player p, FigureKind kind) throws RemoteException {
 		checkPlayer(p);
 		isRockPaperScissor(kind);
-		
 		game.setUpdatedKindAfterDraw(p, kind);
 	}
 

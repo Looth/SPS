@@ -28,7 +28,20 @@ public class FigureHidingGame implements Game {
 
 	@Override
 	public Figure[] getField(Player p) throws RemoteException {
-		return game.getField(p);
+		
+		Figure[] fieldToHide = game.getField(p);
+		
+		hideField(p, fieldToHide);
+		
+		return fieldToHide;
+	}
+
+	private void hideField(Player p, Figure[] fieldToHide) {
+		for(int i = 0; i < fieldToHide.length; i++){
+			if(fieldToHide[i] != null && !fieldToHide[i].belongsTo(p) && !fieldToHide[i].isDiscovered()){
+				fieldToHide[i] = fieldToHide[i].cloneWithHiddenKind();
+			}
+		}
 	}
 
 	@Override
@@ -38,7 +51,17 @@ public class FigureHidingGame implements Game {
 
 	@Override
 	public Move getLastMove(Player p) throws RemoteException {
-		return game.getLastMove(p);
+		
+		Move lastMove = game.getLastMove(p);
+		
+		/*
+		Figure[] moveToHide = lastMove.getOldField();
+		System.out.println(moveToHide);
+		hideField(p,moveToHide);
+		
+		return new Move(lastMove.getFrom(), lastMove.getTo(), moveToHide);
+		*/
+		return null;
 	}
 
 	@Override
