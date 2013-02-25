@@ -54,14 +54,14 @@ public class FigureHidingGame implements Game {
 		
 		Move lastMove = game.getLastMove(p);
 		
-		/*
+		
 		Figure[] moveToHide = lastMove.getOldField();
 		System.out.println(moveToHide);
 		hideField(p,moveToHide);
 		
 		return new Move(lastMove.getFrom(), lastMove.getTo(), moveToHide);
-		*/
-		return null;
+		
+		//return null;
 	}
 
 	@Override
